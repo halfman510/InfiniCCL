@@ -24,7 +24,7 @@ class AllGatherImpl<BackendType::kOmpi, device_type> {
     auto *inst = static_cast<OmpiInstance *>(comm->inter_comm());
 
     if (!inst || inst->handle == MPI_COMM_NULL) {
-      LOG("Invalid OpenMPI communicator instance for AllGather.");
+      LOG("Invalid OpenMPI communicator instance for `AllGather`.");
       return ReturnStatus::kInternalError;
     }
 
@@ -41,7 +41,7 @@ class AllGatherImpl<BackendType::kOmpi, device_type> {
     if (!host_sendbuf || !host_recvbuf) {
       free(host_sendbuf);
       free(host_recvbuf);
-      LOG("Failed to allocate host buffers for AllGather staging.");
+      LOG("Failed to allocate host buffers for `AllGather` staging.");
       return ReturnStatus::kSystemError;
     }
 

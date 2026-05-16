@@ -32,15 +32,15 @@ class AllGather : public Operation<AllGather> {
                              DataType datatype, void *comm_handle) {
     if (!comm_handle) {
       // TODO(lzm): change to use `glog`.
-      LOG("Invalid communicator handle for AllGather.");
+      LOG("Invalid communicator handle for `AllGather`.");
       return true;
     }
     if (!send_buff || !recv_buff) {
-      LOG("Invalid buffer pointer for AllGather.");
+      LOG("Invalid buffer pointer for `AllGather`.");
       return true;
     }
     if (datatype < DataType::kChar || datatype >= DataType::kNumTypes) {
-      LOG("Invalid data type for AllGather.");
+      LOG("Invalid data type for `AllGather`.");
       return true;
     }
     return false;
