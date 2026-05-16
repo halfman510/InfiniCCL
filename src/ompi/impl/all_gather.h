@@ -13,19 +13,19 @@ namespace infini::ccl {
 
 template <Device::Type device_type>
 class AllGatherImpl<BackendType::kOmpi, device_type> {
-public:
+ public:
   static ReturnStatus Apply(const void *send_buff, void *recv_buff,
                             size_t count, DataType data_type,
                             Communicator *comm, void *stream) {
-    constexpr Device::Type kDev = 
+    constexpr Device::Type kDev =
         ListGetBest<DevicePriority>(ActiveDevices<AllGather>{});
     using Rt = Runtime<kDev>;
 
     auto *inst = static_cast<OmpiInstance *>(comm->inter_comm());
 
     if (!inst || inst->handle == MPI_COMM_NULL) {
-        LOG("Invalid OpenMPI communicator instance for AllGather.");
-        return ReturnStatus::kInternalError;
+      LOG("Invalid OpenMPI communicator instance for AllGather.");
+      return ReturnStatus::kInternalError;
     }
 
     MPI_Datatype mpi_type = DataTypeToOmpiType(data_type);
@@ -50,9 +50,8 @@ public:
 
     CHECK_STATUS(Rt, Rt::StreamSynchronize(static_cast<Rt::Stream>(stream)));
 
-    INFINI_CHECK_MPI(MPI_Allgather(host_sendbuf, count, mpi_type,
-                                   host_recvbuf, count, mpi_type,
-                                   inst->handle));
+    INFINI_CHECK_MPI(MPI_Allgather(host_sendbuf, count, mpi_type, host_recvbuf,
+                                   count, mpi_type, inst->handle));
 
     CHECK_STATUS(Rt, Rt::Memcpy(recv_buff, host_recvbuf, recv_bytes,
                                 Rt::MemcpyHostToDevice));
@@ -67,6 +66,6 @@ public:
 template <>
 struct BackendEnabled<AllGather, BackendType::kOmpi> : std::true_type {};
 
-} // namespace infini::ccl
+}  // namespace infini::ccl
 
-#endif // INFINI_CCL_OMPI_IMPL_ALL_GATHER_H_
+#endif  // INFINI_CCL_OMPI_IMPL_ALL_GATHER_H_

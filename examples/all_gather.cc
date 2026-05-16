@@ -4,8 +4,9 @@
  * collective data gathering across multiple GPUs and nodes.
  */
 
-#include <iostream>
 #include <unistd.h>
+
+#include <iostream>
 #include <vector>
 
 // Public API
@@ -125,8 +126,8 @@ void RunAllGatherExample(int argc, char **argv, int warmup_iter,
         ++error_count;
         if (error_count <= 3 && rank == 0) {
           std::cerr << "Error at block(rank) = " << src_rank
-                    << ", index = " << i
-                    << ": " << actual << " != " << expected << std::endl;
+                    << ", index = " << i << ": " << actual << " != " << expected
+                    << std::endl;
         }
       }
     }
